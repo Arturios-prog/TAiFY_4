@@ -8,6 +8,7 @@ public enum TokenType {
     DIV,            // символ "/"
     EXCLAM,         // символ "!"
     SEMICOLON,      // символ ";"
+    NUMBER,         // число
     WHILE,
     SIXTEEN,        // шестандцатиричное число
     DO,

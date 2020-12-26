@@ -28,17 +28,16 @@ public class Lexer {
     {
         SYMBOL_MAP.put("while", TokenType.WHILE);
         SYMBOL_MAP.put("do", TokenType.DO);
-        SYMBOL_MAP.put("++", TokenType.INCR);
-        SYMBOL_MAP.put("--", TokenType.DECR);
+
         SYMBOL_MAP.put(">=", TokenType.MORE_OR_EQUAL);
         SYMBOL_MAP.put("<=", TokenType.LESS_OR_EQUAL);
         SYMBOL_MAP.put("!=", TokenType.NOT_EQUAl);
         SYMBOL_MAP.put("==", TokenType.EQUAL);
         SYMBOL_MAP.put(">", TokenType.MORE);
         SYMBOL_MAP.put("<", TokenType.LESS);
-
-        SYMBOL_MAP.put("+", TokenType.ADD);
         SYMBOL_MAP.put("-", TokenType.SUB);
+        SYMBOL_MAP.put("+", TokenType.ADD);
+
         SYMBOL_MAP.put("*", TokenType.MUL);
         SYMBOL_MAP.put("/", TokenType.DIV);
         SYMBOL_MAP.put(";", TokenType.SEMICOLON);
@@ -101,7 +100,19 @@ public class Lexer {
         return new Token(TokenType.VAR, varText, index, matched);
     }
 
-    private Token matchSixteen(){
+    private Token matchNumber() {
+        Pattern numberPattern = Pattern.compile("^[-+]?[0-9]*[.,]?[0-9]+(?:[eE][-+]?[0-9]+)?");
+        int matched = match(numberPattern);
+
+        if (matched < 0) {
+            return null;
+        }
+
+        String numberText = str.substring(index, matched);
+        return new Token(TokenType.NUMBER, numberText, index, matched);
+    }
+
+    /*private Token matchSixteen(){
         Pattern varPattern = Pattern.compile("[1-9][0-9a-fA-F]+");
         int matched = match(varPattern);
 
@@ -111,7 +122,7 @@ public class Lexer {
 
         String varText = str.substring(index, matched);
         return new Token(TokenType.SIXTEEN, varText, index, matched);
-    }
+    }*/
 
     private Token matchAnyToken() throws ParseException {
         if (index >= str.length())
@@ -125,9 +136,12 @@ public class Lexer {
         if (symbolToken != null)
             return symbolToken;
 
-        Token sixteenToken = matchSixteen();
+        /*Token sixteenToken = matchSixteen();
         if (sixteenToken != null)
-            return sixteenToken;
+            return sixteenToken;*/
+        Token numToken = matchNumber();
+        if (numToken != null)
+            return numToken;
         Token varToken = matchVariable();
         if (varToken != null)
             return varToken;

@@ -13,9 +13,8 @@ public class Main {
         Lexer lexer = new Lexer(input);
 
         List<Token> output = lexer.getAllTokens();
-
-        for(int i = 0; i < output.size(); i++)
-            System.out.println(output.get(i).symbolText + " " + output.get(i).type);
+        Parser1 parser = new Parser1(output);
+        parser.matchExpression();
     }
 }
 
